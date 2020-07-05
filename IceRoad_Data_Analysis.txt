@@ -1,0 +1,24 @@
+import pandas as pd
+
+Ice = pd.read_csv('Ice.csv')
+print(Ice)
+
+df = pd.read_csv("Ice.csv")
+df.describe()
+df["Thickness(cm)"].describe()
+
+Thickness_mean = df["Thickness(cm)"].mean()
+Thickness_max = df["Thickness(cm)"].max()
+Thickness_min = df["Thickness(cm)"].min()
+print(Thickness_mean)
+print(Thickness_max)
+print(Thickness_min)
+
+#Top 25 thinnest ice points
+Thinnest_Ice = df["Thickness(cm)"].sort_values()
+print(Thinnest_Ice.head(25))
+
+
+#Top 25 Thickiest ice points
+Thinnest_Ice = df["Thickness(cm)"].sort_values(ascending=False)
+print(Thinnest_Ice.head(25))

@@ -1,0 +1,67 @@
+##OG CODE
+
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import pandas as pd
+
+Ice = pd.read_csv('Ice.csv')
+print(Ice)
+
+df = pd.read_csv("Ice.csv")
+df.describe()
+df["Thickness(cm)"].describe()
+
+
+
+Filt =(df['Comment'] == '*')
+Filt = df.loc[~Filt,['GPS Pos(m)', 'Comment']]
+
+
+x1 = df["GPS Pos(m)"]
+x2 = df["GPS Pos(m)"]
+x3 = Filt["GPS Pos(m)"]
+y3 = Filt["Comment"]
+y1 = df["Thickness(cm)"]
+y2 = df["Quality"]
+
+# Create figure with secondary y-axis
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+# Add traces
+fig.add_trace(
+    go.Scatter(x=x1, y=y1, name="Ice Thickness(cm)"),
+    secondary_y=False,
+)
+
+fig.add_trace(
+    go.Scatter(x=x2, y=y2, name="Data Quality"),
+    secondary_y=True,
+)
+
+fig.add_trace(
+    go.Scatter(x=x3, y=y2, name="Flags", mode="markers")
+
+)
+
+# Add figure title
+fig.update_layout(
+    title_text="Ice Thickness and GPR Signal Quality across 'Ice Road' survey area Raw Data")
+
+
+
+
+# Set x-axis title
+fig.update_xaxes(title_text="GPS Pos(m)")
+
+# Set y-axes titles
+fig.update_yaxes(title_text="<b>Ice Thickness(cm)</b> ", secondary_y=False, range=[200, 0])
+fig.update_yaxes(title_text="<b>GPR Signal Quality</b> ", secondary_y=True, range=[2,0])
+
+#"Range [200,0]" makes scripts below redundant, add code back see two lines by offsetting them
+#ASK HOMA WHICH VERSION OF THE FIGURE IS BETTER
+#fig.update_yaxes(autorange="reversed", range=[200,0])
+
+#fig.update_xaxes(side='top')
+#fig.update_xaxes(title_font=dict(size=18))
+
+fig.show()
